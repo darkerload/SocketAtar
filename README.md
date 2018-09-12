@@ -1,5 +1,5 @@
 # SocketAtar
 
-This is application purpose of test socket or can chat between the users.
+You can use purpose of test for socket or chat
 
 ![alt text](http://i63.tinypic.com/22cfia.jpg)
