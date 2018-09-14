@@ -8,3 +8,4 @@ out/production/SocketAtar/sample/Controller$MessageManager.class
 out/production/SocketAtar/sample/SocketManager$SocketServerThread.class
 out/production/SocketAtar/sample/SocketManager$SocketReaderThread.class
 out/production/SocketAtar/sample/Controller$MessageManager.class
+*.class
