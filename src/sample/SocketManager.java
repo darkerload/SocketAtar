@@ -14,7 +14,6 @@ public class SocketManager  implements ISocketManager{
     private Socket socket;
     private ServerSocket serverSocket;
     private ISocketManager messageManager;
-    boolean isSocketTerminateByUser = false;
     private Thread socketServerThread;
     private Thread socketReaderThread;
     private boolean ready = false;
@@ -29,7 +28,7 @@ public class SocketManager  implements ISocketManager{
 
 
 
-    public void Connect(Controller.MessageManager messageManager) throws IOException {
+    public void Connect(Controller.MessageManager messageManager) {
             try {
                 this.messageManager = messageManager;
 
@@ -45,7 +44,7 @@ public class SocketManager  implements ISocketManager{
             }
     }
 
-    public void Emit(String data) throws IOException {
+    public void Emit(String data) {
            PrintWriter writer;
             try {
                 writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
@@ -104,7 +103,6 @@ public class SocketManager  implements ISocketManager{
         public void run() {
            WaitSocketReady();
 
-
             if (socket != null && !socket.isClosed()) {
                 onClosed(false);
             }else{
@@ -114,7 +112,6 @@ public class SocketManager  implements ISocketManager{
 
             BufferedReader reader;
             try {
-
                 reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 while (true){
                     String input = reader.readLine();
@@ -129,7 +126,7 @@ public class SocketManager  implements ISocketManager{
         }
     }
 
-    public void Close() throws IOException {
+    public void Close() {
         try {
             if (socket != null && !socket.isClosed()){
                 socket.close();

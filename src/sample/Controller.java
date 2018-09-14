@@ -4,7 +4,17 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.io.IOException;
 
 
@@ -25,12 +35,33 @@ public class Controller {
     private ListView lstMessageArea;
 
     @FXML
-    private TextField txtSendMessage;
+    private TextArea txtSendMessage;
+
+    @FXML
+    private TextArea txtSelectedItem;
 
     @FXML
     private Button btnConnect;
 
     private ObservableList<String> rcvdMsgsData;
+
+
+    @FXML
+    void btnCopyMessage(ActionEvent event){
+        StringSelection stringSelection = new StringSelection(txtSelectedItem.getText());
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        clipboard.setContents(stringSelection, null);
+    }
+
+    @FXML
+        void lstMessageArea(MouseEvent mouse) throws IOException{
+        String item = lstMessageArea.getSelectionModel().getSelectedItem().toString();
+        if (item.startsWith("Me: ")){
+            txtSelectedItem.setText(item.substring(4,item.length()));
+        }else{
+            txtSelectedItem.setText(item);
+        }
+    }
 
 
     @FXML
@@ -64,13 +95,15 @@ public class Controller {
 
 
     @FXML
-    void sendMessage() throws IOException {
-        String message = txtSendMessage.getText().trim();
-        if (!message.isEmpty()) {
-            socketManager.Emit(message);
-            lstMessageArea.getItems().add("Me: "  + message);
-            txtSendMessage.clear();
-        }
+    void btnSendMessage() throws IOException {
+        sendMessage();
+    }
+
+    void sendMessage(){
+        String message = txtSendMessage.getText();
+        socketManager.Emit(message);
+        lstMessageArea.getItems().add("Me: "  + message);
+        txtSendMessage.clear();
     }
 
 
